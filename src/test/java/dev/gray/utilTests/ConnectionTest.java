@@ -1,4 +1,4 @@
-package dev.gray.connectionTests;
+package dev.gray.utilTests;
 /* Author: Grayson Howard
  * Modified: 04/07/2022
  * Tests to verify connection to the database
