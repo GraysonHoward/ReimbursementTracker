@@ -1,6 +1,6 @@
 package dev.gray.data;
 /* Author: Grayson Howard
- * Modified: 04/19/2022
+ * Modified: 04/20/2022
  * Implementation
  */
 import dev.gray.entities.Employee;
@@ -8,6 +8,7 @@ import dev.gray.util.ConnectionUtil;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAOPostgres implements EmployeeDAO{
@@ -27,10 +28,10 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
 
             ResultSet resultSet = ps.getGeneratedKeys();
             if(resultSet.next()) {
-                int userID = resultSet.getInt("user_id");
+                int userID = resultSet.getInt("id");
                 e.setID(userID);
 
-                String message = "Creating User... " + e.getID();
+                String message = "Creating Employee... " + e.getID();
                 log.info(message);
 
                 return e;
@@ -52,7 +53,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
 
             ResultSet rs = ps.executeQuery();
 
-            String message = "Fetching User... " + id;
+            String message = "Fetching Employee... " + id;
             log.info(message);
 
             if(rs.next()){
@@ -71,13 +72,37 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
 
     @Override
     public List<Employee> getAllEmployee() {
+        try(Connection conn = ConnectionUtil.createConnection()) {
+            String sql = "select * from employee";
+            assert conn != null;
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            ResultSet rs = ps.executeQuery();
+
+            String message = "Fetching All Employee... ";
+            log.info(message);
+
+            List<Employee> employees = new ArrayList<>();
+
+            while(rs.next()){
+                Employee e = new Employee();
+                e.setID(rs.getInt("id"));
+                e.setFName(rs.getString("first_name"));
+                e.setLName(rs.getString("last_name"));
+                employees.add(e);
+            }
+            return employees;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error(e);
+        }
         return null;
     }
 
     @Override
     public Employee updateEmployee(Employee e) {
         try(Connection conn = ConnectionUtil.createConnection()) {
-            String sql = "update employee set first_name = ?, last_name = ? where id = ?)";
+            String sql = "update employee set first_name = ?, last_name = ? where id = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, e.getFName());
@@ -100,7 +125,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
     @Override
     public boolean deleteEmployee(Employee e) {
         try(Connection conn = ConnectionUtil.createConnection()) {
-            String sql = "delete * from employee where id = ?";
+            String sql = "delete from employee where id = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, e.getID());
