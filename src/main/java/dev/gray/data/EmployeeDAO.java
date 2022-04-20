@@ -1,4 +1,9 @@
 package dev.gray.data;
+/* Author: Grayson Howard
+ * Modified: 04/19/2022
+ * Class designed to interact with the Employee
+ * table in the database
+ */
 
 import dev.gray.entities.Employee;
 import dev.gray.entities.Expense;

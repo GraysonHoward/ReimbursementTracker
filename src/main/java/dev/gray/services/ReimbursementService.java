@@ -1,5 +1,9 @@
 package dev.gray.services;
-
+/* Author: Grayson Howard
+ * Modified: 04/19/2022
+ * Defines actions that are legal to take
+ * when interacting with the server
+ */
 import dev.gray.entities.Employee;
 
 import java.util.List;

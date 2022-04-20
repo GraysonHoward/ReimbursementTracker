@@ -1,5 +1,8 @@
 package dev.gray.data;
-
+/* Author: Grayson Howard
+ * Modified: 04/19/2022
+ * Implementation
+ */
 import dev.gray.entities.Employee;
 import dev.gray.util.ConnectionUtil;
 import org.apache.log4j.Logger;

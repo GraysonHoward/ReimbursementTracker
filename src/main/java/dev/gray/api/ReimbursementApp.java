@@ -1,10 +1,16 @@
 package dev.gray.api;
+/* Author: Grayson Howard
+ * Modified: 04/20/2022
+ *
+ */
 
 import com.google.gson.Gson;
 import io.javalin.Javalin;
 
 public class ReimbursementApp {
+
     static Gson gson = new Gson();
+
     public static void main(String[] args) {
         Javalin app = Javalin.create();
 
