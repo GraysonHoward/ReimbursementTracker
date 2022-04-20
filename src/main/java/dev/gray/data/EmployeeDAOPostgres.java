@@ -29,9 +29,9 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             ResultSet resultSet = ps.getGeneratedKeys();
             if(resultSet.next()) {
                 int userID = resultSet.getInt("id");
-                e.setID(userID);
+                e.setId(userID);
 
-                String message = "Creating Employee... " + e.getID();
+                String message = "Creating Employee... " + e.getId();
                 log.info(message);
 
                 return e;
@@ -58,7 +58,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
 
             if(rs.next()){
                 Employee e = new Employee();
-                e.setID(rs.getInt("id"));
+                e.setId(rs.getInt("id"));
                 e.setFName(rs.getString("first_name"));
                 e.setLName(rs.getString("last_name"));
                 return e;
@@ -86,7 +86,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
 
             while(rs.next()){
                 Employee e = new Employee();
-                e.setID(rs.getInt("id"));
+                e.setId(rs.getInt("id"));
                 e.setFName(rs.getString("first_name"));
                 e.setLName(rs.getString("last_name"));
                 employees.add(e);
@@ -107,11 +107,11 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, e.getFName());
             ps.setString(2, e.getLName());
-            ps.setInt(3, e.getID());
+            ps.setInt(3, e.getId());
 
             ps.executeUpdate();
 
-            String message = "Updating User... " + e.getID();
+            String message = "Updating User... " + e.getId();
             log.info(message);
 
             return e;
@@ -128,11 +128,11 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             String sql = "delete from employee where id = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, e.getID());
+            ps.setInt(1, e.getId());
 
             ps.execute();
 
-            String message = "Removing User... " + e.getID();
+            String message = "Removing User... " + e.getId();
             log.info(message);
 
             return true;

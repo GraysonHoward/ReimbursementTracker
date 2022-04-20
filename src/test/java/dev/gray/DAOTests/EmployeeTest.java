@@ -21,14 +21,14 @@ public class EmployeeTest {
     void create_employee(){
         eTest = new Employee(0, "Banana", "Man");
         eTest = eDAO.createNew(eTest);
-        Assertions.assertNotEquals(0, eTest.getID());
+        Assertions.assertNotEquals(0, eTest.getId());
     }
 
     @Test
     @Order(2)
     void retrieve_employee(){
-        Employee retrieved = eDAO.getByID(eTest.getID());
-        Assertions.assertEquals(retrieved.getID(), eTest.getID());
+        Employee retrieved = eDAO.getByID(eTest.getId());
+        Assertions.assertEquals(retrieved.getId(), eTest.getId());
     }
 
     @Test
