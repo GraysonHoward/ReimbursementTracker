@@ -8,6 +8,11 @@ public class ReimbursementApp {
     public static void main(String[] args) {
         Javalin app = Javalin.create();
 
+        // Server health check route
+        app.get("/", context -> {
+
+        });
+
         app.post("/employees", context -> {
 
         });
@@ -24,6 +29,6 @@ public class ReimbursementApp {
 
         });
 
-        app.start(7000);
+        app.start(5000);
     }
 }
