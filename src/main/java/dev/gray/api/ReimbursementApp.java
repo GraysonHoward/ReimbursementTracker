@@ -11,6 +11,7 @@ import dev.gray.entities.*;
 import dev.gray.services.*;
 
 import io.javalin.Javalin;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.util.List;
 
