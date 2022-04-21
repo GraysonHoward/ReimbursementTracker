@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ExpenseDAOPostgres implements ExpenseDAO {
 
-    static Logger log = Logger.getLogger(EmployeeDAOPostgres.class.getName());
+    static Logger log = Logger.getLogger(ExpenseDAOPostgres.class.getName());
 
     @Override
     public Expense createExpense(Expense ex) {

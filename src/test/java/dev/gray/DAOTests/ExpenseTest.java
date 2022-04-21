@@ -1,7 +1,7 @@
 package dev.gray.DAOTests;
 /* Author: Grayson Howard
  * Modified: 04/21/2022
- * CRUD tests for the EmployeeDAO
+ * CRUD tests for the ExpenseDAO
  */
 
 import dev.gray.data.EmployeeDAO;

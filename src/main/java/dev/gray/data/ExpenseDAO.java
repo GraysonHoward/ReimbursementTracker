@@ -4,7 +4,6 @@ package dev.gray.data;
  * Class designed to interact with the Expense
  * table in the database
  */
-import dev.gray.entities.Employee;
 import dev.gray.entities.Expense;
 
 import java.util.List;
