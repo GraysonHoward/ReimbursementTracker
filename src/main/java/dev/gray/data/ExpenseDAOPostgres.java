@@ -1,6 +1,9 @@
 package dev.gray.data;
+/* Author: Grayson Howard
+ * Modified: 04/21/2022
+ * CRUD implementation for ExpenseDAO
+ */
 
-import dev.gray.entities.Employee;
 import dev.gray.entities.Expense;
 import dev.gray.entities.Status;
 import dev.gray.util.ConnectionUtil;
@@ -24,14 +27,13 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             ps.setDouble(2, ex.getAmount());
 
             ps.execute();
+            String message = String.format("Creating Expenditure... %d for $%.2f", ex.getExpId(), ex.getAmount());
+            log.info(message);
 
-            ResultSet resultSet = ps.getGeneratedKeys();
-            if(resultSet.next()) {
-                int expId = resultSet.getInt("exp_id");
-                ex.setExpId(expId);
-
-                String message = String.format("Creating Expenditure... %d for $%.2f", ex.getExpId(), ex.getAmount());
-                log.info(message);
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()) {
+                ex.setExpId(rs.getInt("exp_id"));
+                ex.setStat(Status.valueOf(rs.getString("stat")));
 
                 return ex;
             }
@@ -52,7 +54,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            String message = "Fetching Expense... " + id;
+            String message = "Fetching Expenditure... " + id;
             log.info(message);
 
             if(rs.next()){
@@ -73,16 +75,16 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
     }
 
     @Override
-    public List<Expense> expenses(Employee e) {
+    public List<Expense> expenses(int id) {
         try(Connection conn = ConnectionUtil.createConnection()) {
             String sql = "select * from expense where employee = ?";
             assert conn != null;
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, e.getId());
+            ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
 
-            String message = String.format("Fetching Expenditures for: %d", e.getId());
+            String message = String.format("Fetching Expenditures for: %d", id);
             log.info(message);
 
             List<Expense> expenses = new ArrayList<>();
@@ -142,6 +144,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             ps.setInt(1, ex.getEmplId());
             ps.setDouble(2, ex.getAmount());
             ps.setString(3, ex.getStat().getStatus());
+            ps.setInt(4,ex.getExpId());
 
             ps.executeUpdate();
 

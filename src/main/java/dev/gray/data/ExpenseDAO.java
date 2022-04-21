@@ -1,6 +1,6 @@
 package dev.gray.data;
 /* Author: Grayson Howard
- * Modified: 04/19/2022
+ * Modified: 04/21/2022
  * Class designed to interact with the Expense
  * table in the database
  */
@@ -15,7 +15,7 @@ public interface ExpenseDAO {
     // Get an Expense by its ID
     Expense getExpenseByID(int id);
     // Gets all expenses for an employee
-    List<Expense> expenses(Employee e);
+    List<Expense> expenses(int id);
     // Get all logged expenses if not provided with an employee
     List<Expense> expenses();
     // Update and expense

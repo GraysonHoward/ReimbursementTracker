@@ -1,9 +1,9 @@
 package dev.gray.entities;
 
 public enum Status {
-    PENDING("Pending"),
-    APPROVED("Approved"),
-    DENIED("Denied");
+    PENDING("PENDING"),
+    APPROVED("APPROVED"),
+    DENIED("DENIED");
 
     private final String stat;
 

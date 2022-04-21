@@ -1,6 +1,6 @@
 package dev.gray.DAOTests;
 /* Author: Grayson Howard
- * Modified: 04/20/2022
+ * Modified: 04/21/2022
  * CRUD tests for the EmployeeDAO
  */
 
@@ -55,8 +55,8 @@ class EmployeeTest {
     @Order(4)
     void update_employee(){
         eTest.setFName("Apple");
-        Employee returned = eDAO.updateEmployee(eTest);
-        Assertions.assertEquals("Apple", returned.getFName());
+        Employee retrieved = eDAO.updateEmployee(eTest);
+        Assertions.assertEquals("Apple", retrieved.getFName());
     }
 
     @Test
