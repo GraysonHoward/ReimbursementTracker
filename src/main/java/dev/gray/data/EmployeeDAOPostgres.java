@@ -92,11 +92,12 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
                 employees.add(e);
             }
             return employees;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            log.error(e);
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+            log.error(exc);
         }
-        return null;
+        // Something went wrong
+        return new ArrayList<>();
     }
 
     @Override

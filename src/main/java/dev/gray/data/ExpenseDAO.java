@@ -16,8 +16,8 @@ public interface ExpenseDAO {
     Expense getExpenseByID(int id);
     // Gets all expenses for an employee
     List<Expense> expenses(Employee e);
-    // Get all logged expenses
-    List<Expense> getAllExpenses();
+    // Get all logged expenses if not provided with an employee
+    List<Expense> expenses();
     // Update and expense
     Expense updateExpense(Expense ex);
     // Delete an Expense this can only be done to pending expenses

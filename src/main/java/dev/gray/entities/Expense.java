@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Expense {
-    private int expID;
-    private int emplID;
+    private int expId;
+    private int emplId;
     private double amount;
     private Status stat;
 }
