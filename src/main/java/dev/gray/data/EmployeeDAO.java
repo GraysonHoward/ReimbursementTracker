@@ -6,9 +6,6 @@ package dev.gray.data;
  */
 
 import dev.gray.entities.Employee;
-import dev.gray.entities.Expense;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public interface EmployeeDAO {

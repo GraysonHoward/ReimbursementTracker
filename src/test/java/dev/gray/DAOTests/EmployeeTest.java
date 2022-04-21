@@ -12,7 +12,7 @@ import org.junit.jupiter.api.*;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)// to run tests in order
-public class EmployeeTest {
+class EmployeeTest {
     static EmployeeDAO eDAO = new EmployeeDAOPostgres();
     static Employee eTest;
 

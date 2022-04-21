@@ -11,13 +11,13 @@ import dev.gray.entities.*;
 import dev.gray.services.*;
 
 import io.javalin.Javalin;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.util.List;
 
 public class ReimbursementApp {
 
     static Gson gson = new Gson();
+    static String employee404 = "No Employee Found";
 
     public static void main(String[] args) {
         Javalin app = Javalin.create();
@@ -44,7 +44,7 @@ public class ReimbursementApp {
             Employee e = rs.fetchEmployee(id);
             String json = gson.toJson(e);
             context.status((e!=null)?201:404);
-            context.result((e!=null)?json:"No Employee Found");
+            context.result((e!=null)?json: employee404);
         });
         // What is this supposed to be doing differently
         app.put("/employees/{id}", context -> {
@@ -53,7 +53,7 @@ public class ReimbursementApp {
             Employee e = gson.fromJson(body, Employee.class);
             e = rs.updateEmployee(e);
             context.status((e!=null)?201:404);
-            context.result((e!=null)?"Employee Updated":"No Employee Found");
+            context.result((e!=null)?"Employee Updated": employee404);
         });
         app.delete("/employees/{id}", context -> {
             int id = Integer.parseInt(context.pathParam("id"));
@@ -64,7 +64,7 @@ public class ReimbursementApp {
                 context.result((res)?"Employee Removed":"Employee Not Removed");
             }else{
                 context.status(404);
-                context.result("No Employee Found");
+                context.result(employee404);
             }
         });
 

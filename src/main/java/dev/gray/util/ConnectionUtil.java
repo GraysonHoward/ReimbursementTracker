@@ -14,8 +14,7 @@ public class ConnectionUtil {
     public static Connection createConnection(){
 
         try {
-            Connection conn = DriverManager.getConnection(System.getenv("REIMDB"));
-            return conn;
+            return DriverManager.getConnection(System.getenv("REIMDB"));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

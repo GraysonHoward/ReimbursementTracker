@@ -1,4 +1,4 @@
 package dev.gray.DAOTests;
 
-public class ExpenseTest {
+class ExpenseTest {
 }
