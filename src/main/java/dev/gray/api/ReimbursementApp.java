@@ -35,7 +35,7 @@ public class ReimbursementApp {
             context.result((e != null)?"Employee Created!" : "Failed to Create Employee");
         });
         app.get("/employees", context -> {
-            List<Employee> employees = rs.listEmployees();
+            List<Employee> employees = rs.employees();
             String json = gson.toJson(employees);
             context.result(json);
         });
