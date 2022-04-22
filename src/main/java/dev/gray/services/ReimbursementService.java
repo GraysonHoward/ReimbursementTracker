@@ -27,7 +27,7 @@ public interface ReimbursementService {
     /*
      * Expense REST route related methods
      */
-    // Enter new Expense
+    // Enter new Expense amount must be positive
     Expense newExpense(Expense ex);
     // Return all Expenses!!!
     List<Expense> expenses();

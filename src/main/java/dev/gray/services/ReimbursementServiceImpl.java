@@ -1,6 +1,6 @@
 package dev.gray.services;
 /* Author: Grayson Howard
- * Modified: 04/20/2022
+ * Modified: 04/22/2022
  * Implementation
  */
 
@@ -48,7 +48,10 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     @Override
+    // Create new expense IFF the amount is negative
     public Expense newExpense(Expense ex) {
+        if(ex.getAmount()>0)
+            return expenseDAO.createExpense(ex);
         return null;
     }
 

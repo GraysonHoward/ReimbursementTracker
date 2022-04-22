@@ -1,6 +1,6 @@
 package dev.gray.api;
 /* Author: Grayson Howard
- * Modified: 04/20/2022
+ * Modified: 04/22/2022
  * Handles action requests and take appropriate action
  */
 
@@ -18,6 +18,7 @@ public class ReimbursementApp {
 
     static Gson gson = new Gson();
     static String employee404 = "No Employee Found";
+    static String expense404 = "No Expense Found";
 
     public static void main(String[] args) {
         Javalin app = Javalin.create();

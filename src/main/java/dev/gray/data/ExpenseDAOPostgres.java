@@ -1,6 +1,6 @@
 package dev.gray.data;
 /* Author: Grayson Howard
- * Modified: 04/21/2022
+ * Modified: 04/22/2022
  * CRUD implementation for ExpenseDAO
  */
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ExpenseDAOPostgres implements ExpenseDAO {
 
-    static Logger log = Logger.getLogger(ExpenseDAOPostgres.class.getName());
+    static Logger log = Logger.getLogger("ExpenseDAOPostgres");
 
     @Override
     public Expense createExpense(Expense ex) {
@@ -27,14 +27,13 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             ps.setDouble(2, ex.getAmount());
 
             ps.execute();
-            String message = String.format("Creating Expenditure... %d for $%.2f", ex.getExpId(), ex.getAmount());
-            log.info(message);
 
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()) {
                 ex.setExpId(rs.getInt("exp_id"));
                 ex.setStat(Status.valueOf(rs.getString("stat")));
-
+                String message = String.format("Creating Expenditure... %d for $%.2f", ex.getExpId(), ex.getAmount());
+                log.info(message);
                 return ex;
             }
         } catch (SQLException e) {

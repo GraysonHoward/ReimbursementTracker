@@ -1,6 +1,6 @@
 package dev.gray.data;
 /* Author: Grayson Howard
- * Modified: 04/20/2022
+ * Modified: 04/22/2022
  * Implementation
  */
 import dev.gray.entities.Employee;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class EmployeeDAOPostgres implements EmployeeDAO{
 
-    static Logger log = Logger.getLogger(EmployeeDAOPostgres.class.getName());
+    static Logger log = Logger.getLogger("EmployeeDAOPostgres");
 
     @Override
     public Employee createNew(Employee e) {
