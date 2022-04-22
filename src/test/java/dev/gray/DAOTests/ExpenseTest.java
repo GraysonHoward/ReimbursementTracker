@@ -76,6 +76,13 @@ class ExpenseTest {
 
     @Test
     @Order(6)
+    void retrieve_with_status(){
+        List<Expense> retrieved = exDAO.expenses(Status.APPROVED);
+        Assertions.assertTrue(retrieved.size()>=1);
+    }
+
+    @Test
+    @Order(7)
     //Make sure expenses are deleted when an employee is
     void cascade_on_delete(){
         int id = eTest2.getId();
@@ -85,7 +92,7 @@ class ExpenseTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     void delete_expense(){
         List<Expense> expenses = exDAO.expenses(eTest.getId());
         expenses.removeIf(e -> exDAO.deleteExpense(e));

@@ -105,6 +105,37 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
     }
 
     @Override
+    public List<Expense> expenses(Status stat) {
+        try(Connection conn = ConnectionUtil.createConnection()) {
+            String sql = "select * from expense where stat = ?";
+            assert conn != null;
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, stat.getStatus());
+
+            ResultSet rs = ps.executeQuery();
+
+            String message = String.format("Fetching Expenditures With Status: %s", stat);
+            log.info(message);
+
+            List<Expense> expenses = new ArrayList<>();
+            while(rs.next()){
+                Expense ex = new Expense();
+                ex.setExpId(rs.getInt("exp_id"));
+                ex.setEmplId(rs.getInt("employee"));
+                ex.setAmount(rs.getDouble("amount"));
+                ex.setStat(Status.valueOf(rs.getString("stat")));
+                expenses.add(ex);
+            }
+            return expenses;
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+            log.error(exc);
+        }
+        // Something went wrong
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<Expense> expenses() {
         try(Connection conn = ConnectionUtil.createConnection()) {
             String sql = "select * from expense";

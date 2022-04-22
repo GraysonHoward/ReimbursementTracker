@@ -57,7 +57,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 
     @Override
     public List<Expense> expenses() {
-        return null;
+        return expenseDAO.expenses();
     }
 
     @Override
