@@ -28,6 +28,9 @@ public class ReimbursementApp {
         app.get("/", context -> {
             context.status(201);
         });
+        /*
+         * Employee Routes
+         */
         app.post("/employees", context -> {
             String body = context.body();
             Employee e = gson.fromJson(body, Employee.class);
@@ -52,6 +55,7 @@ public class ReimbursementApp {
             int id = Integer.parseInt(context.pathParam("id"));
             String body = context.body();
             Employee e = gson.fromJson(body, Employee.class);
+            e.setId(id);
             e = rs.updateEmployee(e);
             context.status((e!=null)?201:404);
             context.result((e!=null)?"Employee Updated": employee404);
@@ -68,7 +72,39 @@ public class ReimbursementApp {
                 context.result(employee404);
             }
         });
+        /*
+         * Expense Routes
+         */
+        app.post("/expenses", context -> {
 
+        });
+        app.get("/expenses", context -> {
+
+        });
+        app.get("/expenses/{id}", context -> {
+
+        });
+        app.put("/expenses/{id}", context -> {
+
+        });
+        app.patch("/expenses/{id}/approve", context -> {
+
+        });
+        app.patch("/expenses/{id}/deny", context -> {
+
+        });
+        app.delete("/expenses/{id}", context -> {
+
+        });
+        /*
+         * Nested Routes
+         */
+        app.get("/employees/{id}/expenses", context -> {
+
+        });
+        app.put("/employees/{id}/expenses", context -> {
+
+        });
         app.start(5000);
     }
 }
