@@ -5,21 +5,22 @@ package dev.gray.api;
  */
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import dev.gray.data.EmployeeDAOPostgres;
 import dev.gray.data.ExpenseDAOPostgres;
 import dev.gray.entities.*;
 import dev.gray.services.*;
 
 import io.javalin.Javalin;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 /*
  *  TODO: surround gson requests in try catch to handle bad formatting
- *  TODO: Create second logger to print only errors to console and send Main to a file
  */
 
 public class ReimbursementApp {
-
+    static Logger log = Logger.getLogger("ReimbursementApp");
     static Gson gson = new Gson();
     static String employee404 = "No Employee Found";
     static String expense404 = "No Expense Found";
@@ -37,11 +38,18 @@ public class ReimbursementApp {
          */
         // Create new employee
         app.post("/employees", context -> {
-            String body = context.body();
-            Employee e = gson.fromJson(body, Employee.class);
-            e = rs.newEmployee(e);
-            context.status((e != null)?201:500);
-            context.result((e != null)?"Employee Created!" : "Failed to Create Employee");
+            try{
+                String body = context.body();
+                Employee e = gson.fromJson(body, Employee.class);
+                e = rs.newEmployee(e);
+                context.status((e != null)?201:500);
+                context.result((e != null)?"Employee Created!" : "Failed to Create Employee");
+            }catch(JsonSyntaxException exc){
+                String message = "Unable to read Json from body";
+                log.error(message);
+                context.status(400);
+                context.result(message);
+            }
         });
         // Fetch all employees
         app.get("/employees", context -> {

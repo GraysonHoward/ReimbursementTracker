@@ -36,9 +36,10 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
                 log.info(message);
                 return ex;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            log.error(e);
+        } catch (SQLException exc) {
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return null;
     }
@@ -66,9 +67,10 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
 
                 return ex;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            log.error(e);
+        } catch (SQLException exc) {
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return null;
     }
@@ -97,8 +99,9 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             }
             return expenses;
         } catch (SQLException exc) {
-            exc.printStackTrace();
-            log.error(exc);
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         // Something went wrong
         return new ArrayList<>();
@@ -128,8 +131,9 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             }
             return expenses;
         } catch (SQLException exc) {
-            exc.printStackTrace();
-            log.error(exc);
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         // Something went wrong
         return new ArrayList<>();
@@ -158,8 +162,9 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             }
             return expenses;
         } catch (SQLException exc) {
-            exc.printStackTrace();
-            log.error(exc);
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         // Something went wrong
         return new ArrayList<>();
@@ -183,8 +188,9 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
 
             return ex;
         } catch (SQLException exc) {
-            exc.printStackTrace();
-            log.error(exc);
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return null;
     }
@@ -204,8 +210,9 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
 
             return true;
         } catch (SQLException exc) {
-            exc.printStackTrace();
-            log.error(exc);
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return false;
     }

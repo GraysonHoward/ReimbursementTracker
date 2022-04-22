@@ -36,9 +36,10 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
 
                 return e;
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            log.error(ex);
+        } catch (SQLException exc) {
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return null;
     }
@@ -63,9 +64,10 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
                 e.setLName(rs.getString("last_name"));
                 return e;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            log.error(e);
+        } catch (SQLException exc) {
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return null;
     }
@@ -93,8 +95,9 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             }
             return employees;
         } catch (SQLException exc) {
-            exc.printStackTrace();
-            log.error(exc);
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         // Something went wrong
         return new ArrayList<>();
@@ -116,9 +119,10 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             log.info(message);
 
             return e;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            log.error(ex);
+        } catch (SQLException exc) {
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return null;
     }
@@ -137,9 +141,10 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             log.info(message);
 
             return true;
-        }catch (SQLException ex){
-            ex.printStackTrace();
-            log.error(ex);
+        }catch (SQLException exc){
+            StackTraceElement[] trace = exc.getStackTrace();
+            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            log.error(message);
         }
         return false;
     }
