@@ -15,9 +15,6 @@ import io.javalin.Javalin;
 import org.apache.log4j.Logger;
 
 import java.util.List;
-/*
- *  TODO: surround gson requests in try catch to handle bad formatting
- */
 
 public class ReimbursementApp {
     static Logger log = Logger.getLogger("ReimbursementApp");
@@ -67,13 +64,20 @@ public class ReimbursementApp {
         });
         // Update employee where id == {id}
         app.put("/employees/{id}", context -> {
-            int id = Integer.parseInt(context.pathParam("id"));
-            String body = context.body();
-            Employee e = gson.fromJson(body, Employee.class);
-            e.setId(id);
-            e = rs.updateEmployee(e);
-            context.status((e!=null)?201:404);
-            context.result((e!=null)?"Employee Updated": employee404);
+            try{
+                int id = Integer.parseInt(context.pathParam("id"));
+                String body = context.body();
+                Employee e = gson.fromJson(body, Employee.class);
+                e.setId(id);
+                e = rs.updateEmployee(e);
+                context.status((e!=null)?201:404);
+                context.result((e!=null)?"Employee Updated": employee404);
+            }catch(JsonSyntaxException exc){
+                String message = "Unable to read Json from body";
+                log.error(message);
+                context.status(400);
+                context.result(message);
+            }
         });
         // Delete employee where id == {id}
         app.delete("/employees/{id}", context -> {
@@ -93,11 +97,18 @@ public class ReimbursementApp {
          */
         // Create new Expense
         app.post("/expenses", context -> {
-            String body = context.body();
-            Expense ex = gson.fromJson(body, Expense.class);
-            ex = rs.newExpense(ex);
-            context.status((ex != null)?201:500);
-            context.result((ex != null)?"Expense added!" : "Failed to add expense");
+            try{
+                String body = context.body();
+                Expense ex = gson.fromJson(body, Expense.class);
+                ex = rs.newExpense(ex);
+                context.status((ex != null)?201:500);
+                context.result((ex != null)?"Expense added!" : "Failed to add expense");
+            }catch(JsonSyntaxException exc){
+                String message = "Unable to read Json from body";
+                log.error(message);
+                context.status(400);
+                context.result(message);
+            }
         });
         // Fetch all expenses
         app.get("/expenses", context -> {
@@ -121,17 +132,24 @@ public class ReimbursementApp {
                 context.status(404);
                 context.result(expense404);
             }else{ // It does try to update
-                String body = context.body();
-                Expense ex = gson.fromJson(body, Expense.class);
-                if(ex.getExpId() != id){
+                try{
+                    String body = context.body();
+                    Expense ex = gson.fromJson(body, Expense.class);
+                    if(ex.getExpId() != id){
+                        context.status(400);
+                        context.result("Route ID does not match ID found in body.");
+                    }else if(rs.updateExpense(ex)){ // Try to update
+                        context.status(201);
+                        context.result("Expense Updated!");
+                    }else{ // Failed to update
+                        context.status(400);
+                        context.result("Only PENDING requests my be updated");
+                    }
+                }catch(JsonSyntaxException exc){
+                    String message = "Unable to read Json from body";
+                    log.error(message);
                     context.status(400);
-                    context.result("Route ID does not match ID found in body.");
-                }else if(rs.updateExpense(ex)){ // Try to update
-                    context.status(201);
-                    context.result("Expense Updated!");
-                }else{ // Failed to update
-                    context.status(400);
-                    context.result("Only PENDING requests my be updated");
+                    context.result(message);
                 }
             }
         });
@@ -215,15 +233,22 @@ public class ReimbursementApp {
                 context.status(404);
                 context.result(employee404);
             }else{ // Employee exists and we should try to add the expense
-                String body = context.body();
-                Expense ex = gson.fromJson(body, Expense.class);
-                if(ex.getEmplId() != id){
+                try{
+                    String body = context.body();
+                    Expense ex = gson.fromJson(body, Expense.class);
+                    if(ex.getEmplId() != id){
+                        context.status(400);
+                        context.result("Route ID does not match ID found in body.");
+                    }else{ // Failed to update
+                        ex = rs.newExpense(ex);
+                        context.status((ex != null)?201:500);
+                        context.result((ex != null)?"Expense added!" : "Failed to add expense");
+                    }
+                }catch(JsonSyntaxException exc){
+                    String message = "Unable to read Json from body";
+                    log.error(message);
                     context.status(400);
-                    context.result("Route ID does not match ID found in body.");
-                }else{ // Failed to update
-                    ex = rs.newExpense(ex);
-                    context.status((ex != null)?201:500);
-                    context.result((ex != null)?"Expense added!" : "Failed to add expense");
+                    context.result(message);
                 }
             }
         });
