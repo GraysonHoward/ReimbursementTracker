@@ -14,7 +14,8 @@ import io.javalin.Javalin;
 
 import java.util.List;
 /*
- * TODO: surround gson requests in try catch to handle bad formatting
+ *  TODO: surround gson requests in try catch to handle bad formatting
+ *  TODO: Create second logger to print only errors to console and send Main to a file
  */
 
 public class ReimbursementApp {
