@@ -36,7 +36,7 @@ public interface ReimbursementService {
     // Return specific expense
     Expense expense(int id);
     // Update specific expense IFF status is PENDING
-    boolean expense(Expense ex);
+    boolean updateExpense(Expense ex);
     // Change Status of an expense IFF status is PENDING
     boolean expenseStatus(Expense ex, Status status);
     // Delete an expense IFF status is PENDING

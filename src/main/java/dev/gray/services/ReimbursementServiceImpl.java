@@ -62,31 +62,43 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 
     @Override
     public List<Expense> expenses(Status status) {
-        return null;
+        return expenseDAO.expenses(status);
     }
 
     @Override
     public Expense expense(int id) {
-        return null;
+        return expenseDAO.getExpenseByID(id);
     }
 
     @Override
-    public boolean expense(Expense ex) {
+    public boolean updateExpense(Expense ex) {
+        if(ex.getStat()==Status.PENDING){
+            expenseDAO.updateExpense(ex);
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean expenseStatus(Expense ex, Status status) {
+        if(ex.getStat()==Status.PENDING){
+            ex.setStat(status);
+            expenseDAO.updateExpense(ex);
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean deleteExpense(Expense ex) {
+        if(ex.getStat()==Status.PENDING){
+            return expenseDAO.deleteExpense(ex);
+        }
         return false;
     }
 
     @Override
     public List<Expense> expenses(Employee e) {
-        return null;
+        return expenseDAO.expenses(e.getId());
     }
 }
