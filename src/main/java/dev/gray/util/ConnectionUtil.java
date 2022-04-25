@@ -5,6 +5,8 @@ package dev.gray.util;
  * and handle resulting errors from trying to connect
  */
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,11 +14,12 @@ import java.sql.SQLException;
 public class ConnectionUtil {
 
     public static Connection createConnection(){
-
+        Logger log = Logger.getLogger("EmployeeDAOPostgres");
         try {
             return DriverManager.getConnection(System.getenv("REIMDB"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = "Unable to connect to database";
+            log.error(message);
             return null;
         }
 

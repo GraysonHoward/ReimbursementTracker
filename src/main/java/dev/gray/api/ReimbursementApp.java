@@ -21,6 +21,7 @@ public class ReimbursementApp {
     static Gson gson = new Gson();
     static String employee404 = "No Employee Found";
     static String expense404 = "No Expense Found";
+    static String jsonFailure = "Unable to read Json from body";
 
     public static void main(String[] args) {
         Javalin app = Javalin.create();
@@ -42,10 +43,9 @@ public class ReimbursementApp {
                 context.status((e != null)?201:500);
                 context.result((e != null)?"Employee Created!" : "Failed to Create Employee");
             }catch(JsonSyntaxException exc){
-                String message = "Unable to read Json from body";
-                log.error(message);
+                log.error(jsonFailure);
                 context.status(400);
-                context.result(message);
+                context.result(jsonFailure);
             }
         });
         // Fetch all employees
@@ -73,10 +73,9 @@ public class ReimbursementApp {
                 context.status((e!=null)?201:404);
                 context.result((e!=null)?"Employee Updated": employee404);
             }catch(JsonSyntaxException exc){
-                String message = "Unable to read Json from body";
-                log.error(message);
+                log.error(jsonFailure);
                 context.status(400);
-                context.result(message);
+                context.result(jsonFailure);
             }
         });
         // Delete employee where id == {id}
@@ -104,10 +103,9 @@ public class ReimbursementApp {
                 context.status((ex != null)?201:500);
                 context.result((ex != null)?"Expense added!" : "Failed to add expense");
             }catch(JsonSyntaxException exc){
-                String message = "Unable to read Json from body";
-                log.error(message);
+                log.error(jsonFailure);
                 context.status(400);
-                context.result(message);
+                context.result(jsonFailure);
             }
         });
         // Fetch all expenses
@@ -146,10 +144,9 @@ public class ReimbursementApp {
                         context.result("Only PENDING requests my be updated");
                     }
                 }catch(JsonSyntaxException exc){
-                    String message = "Unable to read Json from body";
-                    log.error(message);
+                    log.error(jsonFailure);
                     context.status(400);
-                    context.result(message);
+                    context.result(jsonFailure);
                 }
             }
         });
@@ -245,10 +242,9 @@ public class ReimbursementApp {
                         context.result((ex != null)?"Expense added!" : "Failed to add expense");
                     }
                 }catch(JsonSyntaxException exc){
-                    String message = "Unable to read Json from body";
-                    log.error(message);
+                    log.error(jsonFailure);
                     context.status(400);
-                    context.result(message);
+                    context.result(jsonFailure);
                 }
             }
         });
