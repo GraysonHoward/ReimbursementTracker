@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee {
-    private int id;
-    private String fName;
-    private String lName;
+    private int id = 0;
+    private String fName = null;
+    private String lName = null;
 }
