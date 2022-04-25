@@ -16,5 +16,5 @@ public class Expense {
     private int expId = 0;
     private int emplId = 0;
     private double amount = -1;
-    private Status stat = Status.PENDING;
+    private Status stat = null;
 }

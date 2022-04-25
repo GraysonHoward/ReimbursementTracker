@@ -38,7 +38,16 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     @Override
-    public Employee updateEmployee(Employee e) {
+    public Employee updateEmployee(Employee e, int id) {
+        Employee old = employeeDAO.getByID(id);
+        // The Employee e that is passed may be incomplete
+        // Retrieve old info if noe is provided
+        if(e.getId()==0)
+            e.setId(old.getId());
+        if(e.getFName() == null)
+            e.setFName(old.getFName());
+        if(e.getLName() == null)
+            e.setLName(old.getLName());
         return employeeDAO.updateEmployee(e);
     }
 
@@ -71,8 +80,19 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     @Override
-    public boolean updateExpense(Expense ex) {
-        if(ex.getStat()==Status.PENDING){
+    public boolean updateExpense(Expense ex, int id) {
+        // Fill in any blanks
+        Expense old = expenseDAO.getExpenseByID(id);
+        if(ex.getExpId() == 0)
+            ex.setExpId(old.getExpId());
+        if(ex.getEmplId() == 0)
+            ex.setEmplId(old.getEmplId());
+        if(ex.getAmount() == -1 )
+            ex.setAmount(old.getAmount());
+        if(ex.getStat() == null)
+            ex.setStat(old.getStat());
+        // Otherwise meets conditions
+        if(ex.getStat()==Status.PENDING && ex.getAmount() > 0){
             expenseDAO.updateExpense(ex);
             return true;
         }

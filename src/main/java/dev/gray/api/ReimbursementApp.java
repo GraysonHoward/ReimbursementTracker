@@ -23,6 +23,7 @@ public class ReimbursementApp {
     static String employee404 = "No Employee Found";
     static String expense404 = "No Expense Found";
     static String jsonFailure = "Unable to read Json from body";
+    static String badId = "Route ID does not match ID found in body";
 
     public static void main(String[] args) {
         Javalin app = Javalin.create();
@@ -68,11 +69,22 @@ public class ReimbursementApp {
             try{
                 int id = Integer.parseInt(context.pathParam("id"));
                 String body = context.body();
-                Employee e = gson.fromJson(body, Employee.class);
-                e.setId(id);
-                e = rs.updateEmployee(e);
-                context.status((e!=null)?201:404);
-                context.result((e!=null)?"Employee Updated": employee404);
+                Employee update = gson.fromJson(body, Employee.class);
+                if(rs.fetchEmployee(id) != null) { // Employee for id exists
+                    if(update.getId() == id || update.getId() == 0) { // Id either matches or not provided
+                        update = rs.updateEmployee(update, id);
+                        context.status((update != null) ? 201 : 404);
+                        context.result((update != null) ? "Employee Updated" : employee404);
+                    }else{
+                        log.info(badId);
+                        context.status(400);
+                        context.result(badId);
+                    }
+                }else{
+                    log.info(employee404);
+                    context.status(404);
+                    context.result(employee404);
+                }
             }catch(JsonSyntaxException exc){
                 log.error(jsonFailure);
                 context.status(400);
@@ -88,6 +100,7 @@ public class ReimbursementApp {
                 context.status((res)?201:500);
                 context.result((res)?"Employee Removed":"Employee Not Removed");
             }else{
+                log.info(employee404);
                 context.status(404);
                 context.result(employee404);
             }
@@ -136,31 +149,35 @@ public class ReimbursementApp {
         });
         // Update expense where ExpId == {id}
         app.put("/expenses/{id}", context -> {
-            int id = Integer.parseInt(context.pathParam("id"));
-            // Does it exist?
-            if(rs.expense(id) == null) { // It does not return client error
-                context.status(404);
-                context.result(expense404);
-            }else{ // It does try to update
-                try{
-                    String body = context.body();
-                    Expense ex = gson.fromJson(body, Expense.class);
-                    if(ex.getExpId() != id){
+            try {
+                int id = Integer.parseInt(context.pathParam("id"));
+                String body = context.body();
+                Expense update = gson.fromJson(body, Expense.class);
+                if(rs.expense(id) != null){
+                    if(update.getExpId() == id || update.getExpId() == 0){
+                        if(rs.updateExpense(update, id)){
+                            context.status(201);
+                            context.result("Expense Updated!");
+                        }else{
+                            context.status(400);
+                            context.result("Update failed. Only PENDING requests may be updated.");
+                        }
+                    }else{
+                        log.info(badId);
                         context.status(400);
-                        context.result("Route ID does not match ID found in body.");
-                    }else if(rs.updateExpense(ex)){ // Try to update
-                        context.status(201);
-                        context.result("Expense Updated!");
-                    }else{ // Failed to update
-                        context.status(400);
-                        context.result("Only PENDING requests my be updated");
+                        context.result(badId);
                     }
-                }catch(JsonSyntaxException exc){
-                    log.error(jsonFailure);
-                    context.status(400);
-                    context.result(jsonFailure);
+                }else{
+                    log.info(expense404);
+                    context.status(404);
+                    context.result(expense404);
                 }
+            }catch(JsonSyntaxException exc){
+                log.error(jsonFailure);
+                context.status(400);
+                context.result(jsonFailure);
             }
+
         });
         // Approve expense where ExpId == {id}
         app.patch("/expenses/{id}/approve", context -> {

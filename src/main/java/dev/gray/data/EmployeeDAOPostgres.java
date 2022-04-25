@@ -64,7 +64,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
                 e.setLName(rs.getString("last_name"));
                 return e;
             }else{
-                message = "Bad request: Employee: " + id + "does not exist.";
+                message = "Bad request: Employee: " + id + " does not exist.";
                 log.warn(message);
             }
         } catch (SQLException exc) {
@@ -116,12 +116,16 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             ps.setString(2, e.getLName());
             ps.setInt(3, e.getId());
 
-            ps.executeUpdate();
-
-            String message = "Updating User... " + e.getId();
-            log.info(message);
-
-            return e;
+            int update = ps.executeUpdate();
+            if(update != 0) {
+                String message = "Updating User... " + e.getId();
+                log.info(message);
+                return e;
+            }else{
+                String message = "No employee matching provided Id found";
+                log.warn(message);
+                return null;
+            }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
             String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());

@@ -21,7 +21,7 @@ public interface ReimbursementService {
     // Get a specific Employee
     Employee fetchEmployee(int id);
     // Update an employee
-    Employee updateEmployee(Employee e);
+    Employee updateEmployee(Employee e, int id);
     // Removes an employee
     boolean removeEmployee(Employee e);
     /*
@@ -36,7 +36,7 @@ public interface ReimbursementService {
     // Return specific expense
     Expense expense(int id);
     // Update specific expense IFF status is PENDING
-    boolean updateExpense(Expense ex);
+    boolean updateExpense(Expense ex, int id);
     // Change Status of an expense IFF status is PENDING
     boolean expenseStatus(Expense ex, Status status);
     // Delete an expense IFF status is PENDING
