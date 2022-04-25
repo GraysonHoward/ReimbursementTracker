@@ -63,6 +63,9 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
                 e.setFName(rs.getString("first_name"));
                 e.setLName(rs.getString("last_name"));
                 return e;
+            }else{
+                message = "Bad request: Employee: " + id + "does not exist.";
+                log.warn(message);
             }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();

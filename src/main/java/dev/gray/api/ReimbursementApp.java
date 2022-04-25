@@ -15,6 +15,7 @@ import io.javalin.Javalin;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ReimbursementApp {
     static Logger log = Logger.getLogger("ReimbursementApp");
@@ -110,9 +111,20 @@ public class ReimbursementApp {
         });
         // Fetch all expenses
         app.get("/expenses", context -> {
-            List<Expense> expenses = rs.expenses();
-            String json = gson.toJson(expenses);
-            context.result(json);
+            List<Expense> expenses;
+            String param = context.queryParam("status");
+            if(param != null){// We should only return expenses with a specific status
+                Status stat = Status.valueOf(param.toUpperCase());
+                expenses = rs.expenses(stat);
+                String json = gson.toJson(expenses);
+                context.status(201);
+                context.result(json);
+            }else { // We return all expenses
+                expenses = rs.expenses();
+                String json = gson.toJson(expenses);
+                context.status(201);
+                context.result(json);
+            }
         });
         // Fetch expense where ExpId == {id}
         app.get("/expenses/{id}", context -> {
@@ -222,7 +234,7 @@ public class ReimbursementApp {
                 context.result(employee404);
             }
         });
-        app.put("/employees/{id}/expenses", context -> {
+        app.post("/employees/{id}/expenses", context -> {
             int id = Integer.parseInt(context.pathParam("id"));
             Employee e = rs.fetchEmployee(id);
             // Does the employee exist?

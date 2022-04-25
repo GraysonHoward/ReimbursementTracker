@@ -66,6 +66,9 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
                 ex.setStat(Status.valueOf(rs.getString("stat")));
 
                 return ex;
+            }else{
+                message = "Bad request: Expense: " + id + "does not exist.";
+                log.warn(message);
             }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
