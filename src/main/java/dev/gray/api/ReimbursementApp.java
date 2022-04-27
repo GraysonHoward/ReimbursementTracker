@@ -15,7 +15,6 @@ import io.javalin.Javalin;
 import org.apache.log4j.Logger;
 
 import java.util.List;
-import java.util.Locale;
 
 public class ReimbursementApp {
     static Logger log = Logger.getLogger("ReimbursementApp");
