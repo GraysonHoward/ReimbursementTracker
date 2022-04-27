@@ -14,6 +14,7 @@ import java.util.List;
 public class EmployeeDAOPostgres implements EmployeeDAO{
 
     static Logger log = Logger.getLogger("EmployeeDAOPostgres");
+    String debugMessage = "Method: %s | SQL State: %s | Message: %s";
 
     @Override
     public Employee createNew(Employee e) {
@@ -38,7 +39,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return null;
@@ -69,7 +70,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return null;
@@ -99,7 +100,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             return employees;
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         // Something went wrong
@@ -128,7 +129,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return null;
@@ -150,7 +151,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO{
             return true;
         }catch (SQLException exc){
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return false;

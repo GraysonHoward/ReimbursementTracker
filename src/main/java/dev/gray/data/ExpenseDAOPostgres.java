@@ -16,6 +16,7 @@ import java.util.List;
 public class ExpenseDAOPostgres implements ExpenseDAO {
 
     static Logger log = Logger.getLogger("ExpenseDAOPostgres");
+    String debugMessage = "Method: %s | SQL State: %s | Message: %s";
 
     @Override
     public Expense createExpense(Expense ex) {
@@ -38,7 +39,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return null;
@@ -72,7 +73,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             }
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return null;
@@ -103,7 +104,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             return expenses;
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         // Something went wrong
@@ -135,7 +136,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             return expenses;
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         // Something went wrong
@@ -166,7 +167,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             return expenses;
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         // Something went wrong
@@ -192,7 +193,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             return ex;
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return null;
@@ -214,7 +215,7 @@ public class ExpenseDAOPostgres implements ExpenseDAO {
             return true;
         } catch (SQLException exc) {
             StackTraceElement[] trace = exc.getStackTrace();
-            String message = String.format("Method: %s Line: %d | SQL State: %s | Message: %s",trace[0].getMethodName(),trace[0].getLineNumber(),exc.getSQLState(),exc.getMessage());
+            String message = String.format(debugMessage,trace[trace.length-1].getMethodName(),exc.getSQLState(),exc.getMessage());
             log.error(message);
         }
         return false;
