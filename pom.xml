@@ -82,7 +82,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>dev.gray.App</mainClass>
+                                    <mainClass>dev.gray.api</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
